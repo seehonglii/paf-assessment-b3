@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 th:text="${brewery.name}"></h1>
+
+    <div th:if="${beers.empty}">
+        No beers found for this brewery
+    </div>
+
+    <div th:if="${not beers.empty}">
+        <h3>Description:</h3>
+        <p th:text="${brewery.description}"></p>
+
+        <h3>Address:</h3>
+        <p th:text="${brewery.address}"></p>
+
+        <h3>Phone:</h3>
+        <p th:text="${brewery.phone}"></p>
+
+        <h3>Website:</h3>
+        <a th:href="${brewery.website}" th:text="${brewery.website}"></a>
+
+        <h3>Beers:</h3>
+        <form th:action="@{/order}" method="post">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Beer Name</th>
+                        <th>Description</th>
+                        <th>Crates</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="beer : ${beers}">
+                        <input type="hidden" th:name="beerIds" th:value="${beer.id}" />
+                        <td th:text="${beer.name}"></td>
+                        <td th:text="${beer.description}"></td>
+                        <td><input type="number" min="0" th:field="*{orderQuantities[__${beer.id}__]}"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit">Place Order</button>
+        </form>
+        <a th:href="@{/}">Back</a>
+    </div>
+</th:block>
+<th:block th:if="${brewery == null}">
+    <h1>Brewery not found</h1>
+    <a th:href="@{/}">Back</a>
+</th:block>
+</body>
+</html>

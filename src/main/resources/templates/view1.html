@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer Detailed Descriptions</title>
+</head>
+<body>
+    <h1 th:text="${styleName}"></h1>
+
+    <div th:if="${beers.empty}">
+        No beers found for this style
+    </div>
+    
+    <div th:if="${not beers.empty}">
+        <table border="1">        
+        <thead>
+            <tr>
+                <th>Beer Name</th>
+                <th>Description</th>
+                <th>Brewery</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="beer : ${beers}">
+                <td th:text="${beer.name}"></td>
+                <td th:text="${beer.description}"></td>
+                <td>
+                    <a th:href="@{/beer/brewery/{id}}(id=${beer.brewery.id})" th:text="${beer.brewery.name}"></a>
+                </td>
+            </tr>           
+        </tbody>
+        </table>
+        <a th:href="@{/}" >Back</a>
+</body>
+</html>
